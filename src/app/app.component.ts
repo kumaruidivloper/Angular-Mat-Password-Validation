@@ -14,7 +14,8 @@ export class AppComponent {
   titleAlert: string = 'This field is required';
   post: any = '';
   public nameMatch: object;
-  public passwordMatch: boolean;
+  public isPasswordMatch: boolean;
+  public isPasswordOk: boolean = false;
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -64,13 +65,13 @@ export class AppComponent {
        const reTypePassword = this.formGroup.get('confirmPassword').value;
        if (choosePasword === reTypePassword) {
          console.log('Pasword Match');
-           this.passwordMatch = choosePasword === reTypePassword;
+           this.isPasswordMatch = choosePasword === reTypePassword;
        } else {
         console.log('Pasword Not Match');
-        this.passwordMatch = choosePasword === reTypePassword;
+        this.isPasswordMatch = choosePasword === reTypePassword;
        }
       }
-    return (!this.passwordMatch) ? { 'requirements': true } : null;
+    return (!this.isPasswordMatch) ? { 'requirements': true } : null;
   }
 
   checkPassword(control) {
@@ -83,6 +84,8 @@ export class AppComponent {
     enteredPassword = enteredPassword != null ? enteredPassword.replace(regex, '~'):'';
     console.log(enteredPassword);
     let passwordCheck = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/;
+    this.isPasswordOk = passwordCheck.test(enteredPassword);
+    console.log(this.isPasswordOk);
     return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
   }
 
@@ -105,7 +108,7 @@ export class AppComponent {
   }
 
   getErrorPassword() {
-    console.log('Hello1')
+    console.log('Hello1');
     return this.formGroup.get('password').hasError('required') ? 'Field is required' :
       this.formGroup.get('password').hasError('requirements') ? 'Password needs to be (at least 8-20 characters, [A-Z] & [a-z] & [0-9] & [#?!@$%^&*-])': '';
   }
