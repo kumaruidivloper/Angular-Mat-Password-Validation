@@ -14,6 +14,7 @@ export class AppComponent {
   titleAlert: string = 'This field is required';
   post: any = '';
   public nameMatch: object;
+  public passwordMatch: boolean;
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -27,10 +28,10 @@ export class AppComponent {
       'email': [null, [Validators.required, Validators.pattern(emailregex)], this.checkInUseEmail],
       'name': [null, [Validators.required, this.checkName.bind(this)]],
       'password': [null, [Validators.required, this.checkPassword.bind(this)]],
+      'confirmPassword': [null, [Validators.required, this.checkConfirmPassword.bind(this)]],
       'description': [null, [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
       'validate': ''
     });
-    this.nameMatch = this.formGroup
   }
 
   setChangeValidate() {
@@ -55,6 +56,21 @@ export class AppComponent {
     if(this.formGroup && this.formGroup.get('password')) {
         console.log(this.formGroup.patchValue({'password': ''}))
     }
+  }
+
+  checkConfirmPassword() {
+    if(this.formGroup && this.formGroup.get('password')) {
+       const choosePasword = this.formGroup.get('password').value;
+       const reptypePassword = this.formGroup.get('confirmPassword').value;
+       if (choosePasword === reptypePassword) {
+         console.log('Pasword Match');
+           this.passwordMatch = choosePasword === reptypePassword;
+       } else {
+        console.log('Pasword Not Match');
+        this.passwordMatch = choosePasword === reptypePassword;
+       }
+      }
+    return (!this.passwordMatch) ? { 'requirements': true } : null;
   }
 
   checkPassword(control) {
@@ -89,8 +105,15 @@ export class AppComponent {
   }
 
   getErrorPassword() {
-    return this.formGroup.get('password').hasError('required') ? 'Field is required (at least 8-20 characters, [A-Z] & [a-z] & [0-9] & [#?!@$%^&*-])' :
+    console.log('Hello1')
+    return this.formGroup.get('password').hasError('required') ? 'Field is required' :
       this.formGroup.get('password').hasError('requirements') ? 'Password needs to be (at least 8-20 characters, [A-Z] & [a-z] & [0-9] & [#?!@$%^&*-])': '';
+  }
+
+  ErrorPasswordConfirm() {
+    console.log('Hello2')
+    return this.formGroup.get('confirmPassword').hasError('required') ? 'Please Confirm Your Password' :
+      this.formGroup.get('confirmPassword').hasError('requirements') ? 'Password Not Match': '';
   }
 
   onSubmit(post) {
