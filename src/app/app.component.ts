@@ -110,7 +110,7 @@ export class AppComponent {
   getErrorPassword() {
     console.log('Hello1');
     return this.formGroup.get('password').hasError('required') ? 'Field is required' :
-      this.formGroup.get('password').hasError('requirements') ? 'Password needs to be (at least 8-20 characters, [A-Z] & [a-z] & [0-9] & [#?!@$%^&*-])': '';
+      this.formGroup.get('password').hasError('requirements') ? 'Password needs to be (at least 8-20 characters, [A-Z] & [a-z] & [0-9] & [#?!@$%^&*-] & Not Use the Name)': '';
   }
 
   ErrorPasswordConfirm() {
