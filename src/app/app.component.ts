@@ -61,13 +61,13 @@ export class AppComponent {
   checkConfirmPassword() {
     if(this.formGroup && this.formGroup.get('password')) {
        const choosePasword = this.formGroup.get('password').value;
-       const reptypePassword = this.formGroup.get('confirmPassword').value;
-       if (choosePasword === reptypePassword) {
+       const reTypePassword = this.formGroup.get('confirmPassword').value;
+       if (choosePasword === reTypePassword) {
          console.log('Pasword Match');
-           this.passwordMatch = choosePasword === reptypePassword;
+           this.passwordMatch = choosePasword === reTypePassword;
        } else {
         console.log('Pasword Not Match');
-        this.passwordMatch = choosePasword === reptypePassword;
+        this.passwordMatch = choosePasword === reTypePassword;
        }
       }
     return (!this.passwordMatch) ? { 'requirements': true } : null;
